@@ -21,7 +21,8 @@ Przykladowa kompilacja i uruchomienie:
 g++ -std=c++17 -O2 solution.cpp -o sol
 ./sol < input.txt
 
-Opis zadan i rozwiazan
+📚 Lista zadań i zastosowane algorytmy
+
 1. Rozklad Fibonacciego
 
 Opis problemu

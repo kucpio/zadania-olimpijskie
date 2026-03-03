@@ -21,207 +21,261 @@ Przykladowa kompilacja i uruchomienie:
 g++ -std=c++17 -O2 solution.cpp -o sol
 ./sol < input.txt
 
-📚 Lista zadań i zastosowane algorytmy
-1) Rozkład Fibonacciego
+Opis zadan i rozwiazan
+1. Rozklad Fibonacciego
 
-Problem (skrót):
-Dla każdej liczby k wykonujemy operacje prowadzące do zera, gdzie w jednym kroku możemy przejść do |k - F| dla dowolnej liczby Fibonacciego F. Celem jest minimalna liczba kroków.
+Opis problemu
 
-Rozwiązanie / pomysł:
+Dana jest liczba k. W jednym kroku mozna przejsc do wartosci |k - F|, gdzie F jest dowolna liczba Fibonacciego. Nalezy wyznaczyc minimalna liczbe krokow potrzebnych do sprowadzenia k do zera.
 
-Generowanie liczb Fibonacciego (preprocessing) do zakresu long long.
+Idea rozwiazania
 
-Strategia zachłanna (greedy): w każdym kroku wybieramy F, które minimalizuje |k - F|, i aktualizujemy k.
+Najpierw generujemy liczby Fibonacciego w zakresie typu long long. W kazdym kroku wybieramy taka liczbe F, ktora minimalizuje wartosc |k - F|. Proces powtarzamy az do uzyskania zera.
 
-Zliczamy liczbę iteracji do osiągnięcia zera.
+Jest to strategia zachlanna (greedy).
 
-Techniki: preprocessing, greedy, arytmetyka na long long.
+Zastosowane techniki
 
-2) Szeregowanie czynności
+preprocessing liczb Fibonacciego
 
-Problem (skrót):
-Dane są elementy opisane parametrami (a, b). Należy je posortować według wartości ilorazu a / b (z remisem rozstrzyganym po indeksie wejściowym).
+algorytm zachlanny
 
-Rozwiązanie / pomysł:
-Zamiast porównywać wartości zmiennoprzecinkowe a / b bezpośrednio, stosujemy porównywanie ułamków przez mnożenie krzyżowe:
+operacje na long long
 
-porównujemy a1/b1 i a2/b2 przez sprawdzenie a1 * b2 vs a2 * b1.
+Zlozonosc
 
-To eliminuje dzielenie i ogranicza problemy z precyzją.
+W praktyce bardzo mala, liczba Fibonaccich jest stala (ok. 90).
 
-Techniki: std::sort, własny komparator, mnożenie krzyżowe.
+2. Szeregowanie czynnosci
 
-Złożoność: O(n log n).
+Opis problemu
 
-3) Tetris Attack
+Dane sa pary liczb (a, b). Nalezy posortowac je wedlug wartosci ilorazu a/b. W przypadku remisu decyduje kolejnosc wejsciowa.
 
-Problem (skrót):
-Dany jest ciąg długości 2n, w którym każda liczba występuje dokładnie dwa razy. Należy zasymulować proces dopasowywania/usuwania par zgodnie z regułami zadania i wypisać kolejne stany (np. rozmiar struktury w trakcie).
+Idea rozwiazania
 
-Rozwiązanie / pomysł:
+Zamiast liczyc a/b bezposrednio (ryzyko bledow precyzji), porownujemy ulamki przez mnozenie krzyzowe:
 
-Symulacja z użyciem tablicy jako stosu (dol[]).
+a1/b1 < a2/b2 wtedy i tylko wtedy, gdy a1 * b2 < a2 * b1.
 
-Tablica jest[] trzyma informację, czy element znajduje się “aktywnie” w strukturze.
+Sortowanie realizowane jest przez std::sort z wlasnym komparatorem.
 
-Przetwarzanie odbywa się wskaźnikami (bez ciężkich struktur), z lokalnymi cofnięciami i dopinaniem elementów.
+Zastosowane techniki
 
-Techniki: symulacja, stos, przetwarzanie liniowe na tablicach.
+sortowanie O(n log n)
 
-Złożoność: w praktyce liniowa względem n.
+mnozenie krzyzowe zamiast dzielenia
 
-4) Trójkąty jednobarwne
+wlasny comparator
 
-Problem (skrót):
-Policzyć liczbę trójkątów w grafie nieskierowanym.
+Zlozonosc
 
-Rozwiązanie / pomysł:
-Zamiast sprawdzać wszystkie trójki wierzchołków (co byłoby O(n^3)), używamy kombinatoryki i liczenia “dopełnieniem”:
+O(n log n)
 
-liczba wszystkich trójek to C(n, 3),
+3. Tetris Attack
 
-odejmujemy trójki, które na pewno nie są trójkątami, wykorzystując stopnie wierzchołków.
+Opis problemu
 
-Techniki: kombinatoryka, stopnie wierzchołków, liczenie dopełnienia.
+Dany jest ciag dlugosci 2n, w ktorym kazda liczba wystepuje dokladnie dwa razy. Nalezy symulowac proces dopasowywania par i raportowac kolejne stany.
 
-Złożoność: O(n + m).
+Idea rozwiazania
 
-5) Wiedźmak
+Algorytm wykorzystuje tablice jako stos oraz tablice znacznikow informujaca, czy dany element jest aktualnie aktywny. Operacje sa wykonywane liniowo, bez uzycia zlozonych struktur STL.
 
-Problem (skrót):
-Najkrótsza ścieżka w grafie, gdzie każda krawędź ma koszt oraz wymaga posiadania pewnego zestawu umiejętności/przedmiotów. Umiejętności można “zbierać” w miastach.
+Logika przypomina redukcje nawiasow przy pomocy stosu.
 
-Rozwiązanie / pomysł:
-Klasyczna Dijkstra na grafie stanów:
+Zastosowane techniki
 
-stan to para (miasto, maska_umiejętności),
+symulacja
 
-przejście krawędzią jest możliwe tylko, jeśli aktualna maska zawiera wymagane bity,
+stos zaimplementowany jako tablica
 
-po wejściu do miasta aktualizujemy maskę przez OR z umiejętnościami tego miasta.
+przetwarzanie liniowe
 
-Techniki: Dijkstra, bitmaski, graf stanów, priority_queue.
+Zlozonosc
 
-Złożoność: w przybliżeniu O((n * 2^p + m * 2^p) log(n * 2^p)), gdzie p <= 13.
+W praktyce O(n)
 
-6) Zima
+4. Trojkaty jednobarwne
 
-Problem (skrót):
-Drzewo z wagami krawędzi; wagi traktowane są różnie zależnie od parzystości. Trzeba wyznaczyć wynik globalny oparty o sumę wag oraz najlepszą możliwą ścieżkę “korygującą” wynik.
+Opis problemu
 
-Rozwiązanie / pomysł:
+Policzyc liczbe trojkatow w grafie nieskierowanym.
 
-Najpierw liczymy bazową sumę wkładów wszystkich krawędzi (osobno parzyste i nieparzyste).
+Idea rozwiazania
 
-Następnie DFS + DP na drzewie: dla każdego wierzchołka trzymamy dwie najlepsze wartości ścieżek schodzących w dół.
+Zamiast sprawdzac wszystkie trojki wierzcholkow, liczymy liczbe wszystkich mozliwych trojek wierzcholkow, a nastepnie odejmujemy te, ktore nie moga tworzyc trojkata. Wykorzystujemy stopnie wierzcholkow i kombinatoryke.
 
-Z tych dwóch wartości składamy najlepszą ścieżkę przechodzącą przez wierzchołek (wariant “najlepszej ścieżki w drzewie”).
+Zastosowane techniki
 
-Techniki: DFS, DP na drzewie, wybór 2 najlepszych dzieci.
+kombinatoryka
 
-Złożoność: O(n).
+liczenie przez dopelnienie
 
-7) Zająknięcia
+analiza stopni wierzcholkow
 
-Problem (skrót):
-Dwa ciągi liczb. Celem jest maksymalizacja liczby dopasowanych “powtórzeń” (par wystąpień tej samej wartości) w obu ciągach z zachowaniem kolejności.
+Zlozonosc
 
-Rozwiązanie / pomysł:
+O(n + m)
 
-Preprocessing: dla każdej pozycji zapamiętujemy indeks poprzedniego wystąpienia tej samej wartości.
+5. Wiedzmak
 
-Następnie DP po parach pozycji z dodatkowymi warunkami poprawności (żeby dopasowywać drugie wystąpienia i nie łamać kolejności).
+Opis problemu
 
-Wynik jest mnożony przez 2, bo każda dopasowana struktura odpowiada parze wystąpień.
+Najkrotsza sciezka w grafie, gdzie krawedzie wymagaja posiadania okreslonych umiejetnosci, a umiejetnosci mozna zdobywac w miastach.
 
-Techniki: DP na sekwencjach, poprzednie wystąpienia, wariant LCS z ograniczeniami.
+Idea rozwiazania
 
-8) Zdjęcia krasnali
+Wykorzystujemy Dijkstre na grafie stanow. Stan to para (miasto, maska_umiejetnosci). Maska reprezentuje zbior zdobytych umiejetnosci w postaci bitmaski.
 
-Problem (skrót):
-Dany graf nieskierowany. Należy spróbować skierować wszystkie krawędzie zgodnie z regułami konstrukcji. Jeśli się nie da — wypisać NIE. Jeśli się da — wypisać TAK oraz numerację wierzchołków wynikającą z porządku topologicznego powstałego grafu skierowanego.
+Przejscie krawedzia jest mozliwe tylko wtedy, gdy aktualna maska zawiera wszystkie wymagane bity.
 
-Rozwiązanie / pomysł:
+Zastosowane techniki
 
-Konstrukcja grafu skierowanego przy użyciu kolejki (BFS) i lokalnych warunków (zliczanie wybranych krawędzi).
+Dijkstra
 
-Po zbudowaniu grafu skierowanego liczymy stopnie wejściowe i robimy topological sort (Kahn).
+bitmaski
 
-Numeracja wierzchołków to pozycja w kolejności topologicznej.
+graf stanow
 
-Techniki: konstrukcja, BFS/queue, topological sort.
+Zlozonosc
 
-Złożoność: O(n + m).
+W przyblizeniu O((n * 2^p + m * 2^p) log(n * 2^p)), gdzie p <= 13.
 
-9) Drogi rowerowe
+6. Zima
 
-Problem (skrót):
-Dla każdego wierzchołka w grafie skierowanym obliczamy wartość zależną od osiągalności (w praktyce: wynik jest liczony na poziomie SCC i następnie przypisywany wierzchołkom).
+Opis problemu
 
-Rozwiązanie / pomysł:
-Klasyczny pipeline:
+Drzewo z wagami krawedzi. Parzystosc wag wplywa na sposob liczenia wyniku. Nalezy znalezc najlepsza sciezke, ktora maksymalnie koryguje wynik globalny.
 
-SCC (Kosaraju): DFS po grafie, potem DFS po grafie odwróconym w kolejności kończenia.
+Idea rozwiazania
 
-Budowa grafu kondensacji (DAG silnie spójnych składowych).
+Najpierw liczymy sume bazowa. Nastepnie wykonujemy DFS i DP na drzewie, dla kazdego wierzcholka przechowujac dwie najlepsze wartosci sciezek schodzacych w dol. Z nich budujemy najlepsza sciezke przechodzaca przez dany wierzcholek.
 
-Topological sort DAG.
+Zastosowane techniki
 
-DP po DAG (propagacja wyników po składowych).
+DFS
 
-Odpowiedź dla wierzchołka v zależy od jego składowej SCC.
+DP na drzewie
 
-Techniki: SCC, kondensacja, topological sort, DP po DAG.
+motyw srednicy drzewa
 
-Złożoność: O(n + m).
+Zlozonosc
 
-10) Marudny Bajtazar
+O(n)
 
-Problem (skrót):
-Dany jest binarny napis długości n oraz m operacji flip (zamiana 0 <-> 1 na pozycji). Po każdej operacji (oraz na początku) trzeba znaleźć najmniejszą długość i, dla której nie wszystkie binarne podciągi spójne długości i występują w napisie.
+7. Zajakniecia
 
-Rozwiązanie / pomysł:
+Opis problemu
 
-Ograniczamy się do k = min(17, n) (dla większych długości liczba wzorców rośnie zbyt szybko, a do odpowiedzi i tak wystarczy małe k).
+Dwa ciagi liczb. Nalezy zmaksymalizowac liczbe dopasowanych powtorzen tej samej wartosci w obu ciagach.
 
-Dla wszystkich startów podciągów utrzymujemy liczniki wystąpień wzorców długości 1..k.
+Idea rozwiazania
 
-Wzorce kodujemy jako ścieżkę w pełnym drzewie binarnym (trie w tablicy), a ip[len] trzyma liczbę różnych wzorców długości len.
+Wyznaczamy poprzednie wystapienia kazdej wartosci, a nastepnie stosujemy dynamic programming podobne do LCS, z dodatkowymi warunkami dotyczacymi poprawnego laczenia par.
 
-Flip wpływa tylko na podciągi w okolicy pozycji: usuwamy ich wkład, flipujemy bit, dodajemy wkład z powrotem.
+Zastosowane techniki
 
-Techniki: bitmaskowanie podciągów, trie w tablicy, aktualizacje lokalne.
+DP na sekwencjach
 
-Złożoność: inicjalizacja O(n * k), jedna zmiana amortyzacyjnie stała (dla k <= 17 bardzo szybka).
+poprzednie wystapienia
 
-11) Minusy
+wariant LCS
 
-Problem (skrót):
-Dane n oraz n-1 znaków +/-. Należy skonstruować wynik (ciąg znaków - z nawiasami), wstawiając nawiasy zależnie od przejść między + i -.
+8. Zdjecia krasnali
 
-Rozwiązanie / pomysł:
+Opis problemu
 
-Jedno przejście po wejściu.
+Dany graf nieskierowany. Nalezy sprobowac skierowac jego krawedzie zgodnie z warunkami konstrukcji, a nastepnie wyznaczyc numeracje wierzcholkow.
 
-Flaga oznacza, czy aktualnie jesteśmy “w nawiasie”.
+Idea rozwiazania
 
-Przy + otwieramy nawias, przy - domykamy (gdy trzeba), a w każdym kroku wypisujemy -.
+Najpierw konstruujemy graf skierowany przy pomocy BFS i warunkow lokalnych. Nastepnie wykonujemy sortowanie topologiczne (algorytm Kahna). Jesli konstrukcja nie jest mozliwa, wypisujemy NIE.
 
-Techniki: prosta symulacja / automat dwustanowy.
+Zastosowane techniki
 
-Złożoność: O(n).
+BFS
 
-12) Bony
+konstrukcja grafu
 
-Problem (skrót):
-Symulacja procesu zaznaczania (sprzedaży) liczb będących wielokrotnościami kolejnych wartości w oraz rejestrowanie momentów trafienia na specjalne (“wygrywające”) pozycje.
+topological sort
 
-Rozwiązanie / pomysł:
+Zlozonosc
 
-sprzedane[x] blokuje ponowne “sprzedanie” tej samej pozycji.
+O(n + m)
 
-ostatni[w] pamięta, od której wielokrotności kontynuować dla danego w (amortyzacja).
+9. Drogi rowerowe
 
-Gdy trafiamy na pozycję oznaczoną jako wygrywająca, zapisujemy wynik zależny od sumy dotychczasowych kroków.
+Opis problemu
 
-Techniki: przejście po wielokrotnościach, visited array, pamiętanie postępu.
+Graf skierowany. Dla kazdego wierzcholka nalezy policzyc wynik zwiazany z osiagalnoscia.
+
+Idea rozwiazania
+
+Najpierw wyznaczamy silnie spojne skladowe (Kosaraju). Budujemy graf kondensacji (DAG), wykonujemy sortowanie topologiczne, a nastepnie DP po DAG.
+
+Zastosowane techniki
+
+SCC (Kosaraju)
+
+kondensacja do DAG
+
+topological sort
+
+DP po DAG
+
+Zlozonosc
+
+O(n + m)
+
+10. Marudny Bajtazar
+
+Opis problemu
+
+Dany jest binarny napis oraz operacje zmiany pojedynczych bitow. Po kazdej zmianie nalezy znalezc najmniejsza dlugosc podciagu, dla ktorej nie wszystkie mozliwe wzorce wystepuja w napisie.
+
+Idea rozwiazania
+
+Ograniczamy maksymalna dlugosc do 17. Utrzymujemy licznik wystapien wszystkich podciagow dlugosci 1..k. Wzorce kodujemy jako liczby binarne w strukturze przypominajacej trie zapisane w tablicy.
+
+Po zmianie bitu aktualizujemy tylko lokalnie dotkniete podciagi.
+
+Zastosowane techniki
+
+bitmaski
+
+trie w tablicy
+
+aktualizacje lokalne
+
+11. Minusy
+
+Opis problemu
+
+Na podstawie ciagu znakow + i - nalezy skonstruowac wynikowy ciag z nawiasami i myslnikami zgodnie z przejsciami miedzy znakami.
+
+Idea rozwiazania
+
+Jedno przejscie po danych oraz automat dwustanowy okreslajacy, czy aktualnie jestesmy w nawiasie.
+
+Zlozonosc
+
+O(n)
+
+12. Bony
+
+Opis problemu
+
+Symulacja zaznaczania wielokrotnosci liczb oraz rejestrowania momentow trafienia na specjalne pozycje.
+
+Idea rozwiazania
+
+Dla kazdej liczby w przechodzimy po jej wielokrotnosciach, oznaczamy jeszcze nieuzyte pozycje oraz zapisujemy trafienia. Dodatkowo zapamietujemy ostatnia sprawdzana wielokrotnosc, co daje efekt amortyzacji.
+
+Zastosowane techniki
+
+przechodzenie po wielokrotnosciach
+
+visited array
+
+amortyzacja
